@@ -6,21 +6,13 @@ module.exports = (req, res) => {
     return res.status(405).end("Method not allowed");
   }
 
-  const code = String(crypto.randomInt(1000, 10000));
   const secret = process.env.CAPTCHA_SECRET;
-
   if (!secret) {
-    res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate");
-    res.setHeader("Content-Type", "image/svg+xml; charset=utf-8");
-    res.status(200).send(
-      '<svg xmlns="http://www.w3.org/2000/svg" width="120" height="48" viewBox="0 0 120 48">' +
-      '<rect width="120" height="48" rx="4" fill="#fffaf1"/>' +
-      '<text x="60" y="32" text-anchor="middle" font-family="Arial,sans-serif" font-size="23" font-weight="bold" letter-spacing="4" fill="#231b12">' +
-      code +
-      '</text></svg>'
-    );
-    return;
+    res.setHeader("Cache-Control", "no-store");
+    return res.status(500).send("Missing CAPTCHA_SECRET environment variable");
   }
+
+  const code = String(crypto.randomInt(1000, 10000));
 
   const expires = Date.now() + 10 * 60 * 1000;
   const payload = Buffer.from(JSON.stringify({ code, expires })).toString("base64url");
