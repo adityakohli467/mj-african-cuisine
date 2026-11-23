@@ -31,7 +31,7 @@ if ($expected === '' || !preg_match('/^\d{4}$/', $captcha) || !hash_equals($expe
 }
 
 // Change this to the restaurant's preferred receiving email if needed.
-$recipient = 'hello@mjafricancuisine.com';
+$recipient = 'info@mjafricancusine.com.au';
 $subject = 'Website enquiry - M.J African Cuisine';
 $body = "Name: {$name}\nEmail: {$email}\nPhone: {$phone}\n\nMessage:\n{$message}";
 $headers = "From: website@mjafricancuisine.com\r\n";
